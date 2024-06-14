@@ -20,7 +20,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
 
 // Own Code
-import {CreateList, ListsResponse} from "../../models/list.ts";
+import {CreateList, ListResponse} from "../../models/list.ts";
 import useLists from "../../hooks/list/useLists.ts";
 import useAddList from "../../hooks/list/useAddList.ts";
 import DeleteList from "./DeleteList.tsx";
@@ -60,7 +60,7 @@ const Lists: React.FC = () => {
         setListName(event.target.value);
     };
 
-    const {shopping_list} = listsData as ListsResponse;
+    const {shopping_list} = listsData as ListResponse;
 
     return (
         <Container maxWidth="sm">

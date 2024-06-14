@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import { Profile } from "../../models/auth.ts"
+import { User } from "../../models/user.ts"
 
-const fetchProfile = async (): Promise<Profile> => {
+const fetchProfile = async (): Promise<User> => {
     const URL = import.meta.env.VITE_API_URL
     const response = await fetch(`${URL}/profile`, {
         method: 'GET',

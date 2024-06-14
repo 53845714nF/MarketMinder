@@ -1,5 +1,5 @@
 import {useMutation} from "react-query";
-import {LoginResponse, Login} from "../../models/auth.ts";
+import {AuthResponse, Auth} from "../../models/auth.ts";
 import {useNavigate} from "react-router-dom";
 
 export default function useLogin() {
@@ -7,7 +7,7 @@ export default function useLogin() {
 
     const URL = import.meta.env.VITE_API_URL
 
-    return useMutation('Login', async (userData: Login) => {
+    return useMutation('Login', async (userData: Auth) => {
         const response = await fetch(`${URL}/login`, {
             method: 'POST',
             credentials: 'include',
@@ -19,10 +19,10 @@ export default function useLogin() {
 
         if (!response.ok) {
             const data = await response.json();
-            throw new Error(data.reason);
+            throw new Error(data.message);
         }
 
-        const data: LoginResponse = await response.json();
+        const data: AuthResponse = await response.json();
         navigate("/lists");
         return data;
     });

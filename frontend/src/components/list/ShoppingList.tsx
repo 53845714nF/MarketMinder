@@ -18,6 +18,7 @@ import {ItemsFromList} from "../../models/list.ts";
 import useList from "../../hooks/list/useList.ts";
 import CreateItemForm from '../item/CreateItemForm.tsx';
 import ItemComponent from '../item/ItemComponent.tsx';
+import ShareList from './ShareList.tsx';
 
 const ShoppingList: React.FC = () => {
     const { id } = useParams()
@@ -57,10 +58,13 @@ const ShoppingList: React.FC = () => {
                     gap: 2,
                 }}
             >
-            <IconButton aria-label="goto" onClick={() => navigate(`/lists`)}>
-                <ArrowBackIosNewIcon color="secondary"/>
-            </IconButton>
-            <Typography variant="h4" color="primary">{name}</Typography>
+                <IconButton aria-label="goto" onClick={() => navigate(`/lists`)}>
+                    <ArrowBackIosNewIcon color="secondary"/>
+                </IconButton>
+                
+                <Typography variant="h4" color="primary">{name}</Typography>
+                
+                <ShareList shoppingListId={id} />
             </Box>
             {items.length === 0 ? (
                     <Typography variant="body1">No items at this list. </Typography>

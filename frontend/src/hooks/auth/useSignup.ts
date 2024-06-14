@@ -1,11 +1,11 @@
 import {useMutation} from "react-query";
-import {Signup} from "../../models/auth.ts";
+import {Auth} from "../../models/auth.ts";
 
 
 export default function useSignup() {
     const URL = import.meta.env.VITE_API_URL
 
-    return useMutation(async (userData: Signup) => {
+    return useMutation(async (userData: Auth) => {
         const response = await fetch(`${URL}/signup`, {
             method: 'POST',
             headers: {
@@ -16,7 +16,7 @@ export default function useSignup() {
 
         if (!response.ok) {
             const data = await response.json();
-            throw new Error(data.reason);
+            throw new Error(data.message);
         }
 
         const data = await response.text();

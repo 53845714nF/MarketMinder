@@ -1,21 +1,8 @@
-export interface Login {
+export interface Auth {
     name: FormDataEntryValue | null
     password: FormDataEntryValue | null;
 }
 
-export interface LoginResponse {
+export interface AuthResponse {
     message: string;
-}
-
-export interface Signup {
-    name: FormDataEntryValue | null
-    password: FormDataEntryValue | null;
-}
-
-export interface Profile {
-    name: string;
-}
-
-export interface User {
-    user_id: string;
 }

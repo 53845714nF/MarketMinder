@@ -12,7 +12,7 @@ import {
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 // Own
-import {Signup} from "../../models/auth.ts";
+import {Auth} from "../../models/auth.ts";
 import useSignup from "../../hooks/auth/useSignup.ts";
 
 
@@ -26,7 +26,7 @@ const RegistrationForm: React.FC = () => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 
-        const userData: Signup = {
+        const userData: Auth = {
             name: formData.get('name'),
             password: formData.get('password'),
         };

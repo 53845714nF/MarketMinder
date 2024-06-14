@@ -12,7 +12,7 @@ import {
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 //Own
-import { Login } from '../../models/auth.ts';
+import { Auth } from '../../models/auth.ts';
 import useLogin from '../../hooks/auth/useLogin.ts';
 
 const LoginForm: React.FC = () => {
@@ -25,15 +25,17 @@ const LoginForm: React.FC = () => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         
-        const userData: Login = {
+        const userData: Auth = {
                 name: formData.get('name'),
                 password: formData.get('password'),
         };
-        mutate(userData);
+        mutate(userData, {
+            onSuccess: () => {
+                navigate('/lists')
+            }
+        });
         setName('');
         setPassword('');
-
-        navigate('/')
     }
 
     return (

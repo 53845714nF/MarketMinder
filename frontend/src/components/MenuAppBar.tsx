@@ -15,7 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 // Own
 import {useProfile} from "../hooks/auth/useProfile.ts"
 import useLogout from "../hooks/auth/useLogout.ts"
-import {Profile} from "../models/auth.ts";
+import {User} from "../models/user.ts";
 
 
 const MenuAppBar: React.FC = () => {
@@ -49,14 +49,14 @@ const MenuAppBar: React.FC = () => {
       });
     }
     
-    const name = profileData ? (profileData as Profile).name : '';
+    const name = profileData ? (profileData as User).name : '';
     
 
   
     return (
         <AppBar position="static">
           <Toolbar>
-          <Typography>Your Shopping lists</Typography>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} >Market Minder</Typography>
           
           <Box sx={{ flexGrow: 1 }} /> {/* Leeres flex-grow Box, um Platz zu schaffen */}
           
@@ -69,7 +69,7 @@ const MenuAppBar: React.FC = () => {
                 onClick={handleMenu}
                 color="inherit"
               >
-                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> {name} </Typography>
+                  <Typography sx={{ flexGrow: 1 }}> {name} </Typography>
                   <AccountCircle sx={{marginLeft: 1}}/>
               </IconButton>
           )}

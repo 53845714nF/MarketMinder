@@ -4,18 +4,14 @@ export interface CreateList {
     name: string;
 }
 
-export interface CreateListResponse {
-    message: string;
+export interface ListResponse {
+    message?: string;
     shopping_list: ShoppingList[];
 }
 
 export interface ShoppingList {
     id: string;
     name: string;
-}
-
-export interface ListsResponse {
-    shopping_list: ShoppingList[];
 }
 
 export interface ItemsFromList {
