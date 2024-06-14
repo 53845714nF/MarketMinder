@@ -14,4 +14,5 @@ def profile():
     """
     This function test profile
     """
-    return jsonify(name=current_user.name), 200
+    user = {'id':current_user.id,'name':current_user.name}
+    return jsonify(user)

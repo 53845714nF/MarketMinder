@@ -10,14 +10,14 @@ from flask_cors import cross_origin
 from models import ShoppingList, User
 from database import db
 
-
-parser = reqparse.RequestParser()
-parser.add_argument('name', type=str, required=True, help="Name cannot be blank!")
-
 class ShoppingListResource(Resource):
     """
     This Class manage shoping list wit no id
     """
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('name', type=str, required=True, help="Name cannot be blank!")
+
     @login_required
     @cross_origin(supports_credentials=True)
     def get(self):
@@ -56,7 +56,7 @@ class ShoppingListResource(Resource):
         Create a new shopping list for a user
         """
         user: User = current_user
-        args = parser.parse_args()
+        args = self.parser.parse_args()
 
         shopping_list_name = args['name']
 
@@ -75,14 +75,19 @@ class ShoppingListResource(Resource):
     @cross_origin(supports_credentials=True)
     def delete(self, list_id):
         """
-        Delete a specific List
+        Delete/Unshare a specific List
         """
         user = current_user
         shopping_list = ShoppingList.query.get(list_id)
 
         if shopping_list is None:
             return {'message': 'Shopping list not found'}, 404
-        #TODO Delete Shared Lists 
+
+        if shopping_list in user.shared_lists:
+            user.shared_lists.remove(shopping_list)
+            db.session.commit()
+            return {'message': 'Unshare List'}, 200
+
         if str(user.id) != str(shopping_list.user_id):
             return {'message': 'Your are not allot to delete this list'}, 403
 
@@ -100,6 +105,10 @@ class ShareShoppingListResource(Resource):
     """
     Class for sharing the Shopping List
     """
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('user_id', type=str, required=True, help="user_id cannot be blank!")
+
     @login_required
     @cross_origin(supports_credentials=True)
     def post(self, list_id):
@@ -107,29 +116,30 @@ class ShareShoppingListResource(Resource):
         Share the list with other users
         """
         user: User = current_user
-        args = parser.parse_args()
+        args = self.parser.parse_args()
 
         # Fetch the shopping list
         shopping_list: ShoppingList = ShoppingList.query.get(list_id)
         if shopping_list is None:
             return {'message': 'Shopping list not found'}, 404
 
-        # Check if the current user is the owner of the shopping list
-        if shopping_list.user_id != user.id:
-            return {'message': 'You are not allowed to share this list'}, 403
+        if not (str(shopping_list.user_id) == str(user.id) or shopping_list in user.shared_lists):
+            return {'message': 'Your not allowed to share this list'}, 200
 
         # Fetch the user to share the list with
         share_with_user_id = args['user_id']
         share_with_user: User = User.query.get(share_with_user_id)
         if share_with_user is None:
-            return {'message': 'User not found'}, 404
+            return {'message': 'Sharing User not found'}, 404
 
         # Add the user to the shared_with relationship
         if share_with_user not in shopping_list.shared_with:
             shopping_list.shared_with.append(share_with_user)
             db.session.commit()
+            return {'message': 'Shopping list shared successfully'}, 200
 
-        return {'message': 'Shopping list shared successfully'}, 200
+        return  {'message': 'Something went wrong'}, 404
+
 
     @cross_origin(supports_credentials=True)
     def options (self):

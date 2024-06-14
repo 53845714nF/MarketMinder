@@ -1,6 +1,7 @@
 """
 Module to create a get endpoint for Users 
 """
+from flask import jsonify
 from flask_restful import Resource
 from flask_login import login_required
 from flask_cors import cross_origin
@@ -24,10 +25,10 @@ class UserResource(Resource):
 
         user_list = [{'name': str(user.name), 'id': str(user.id)} for user in users]
 
-        return str(user_list)
+        return jsonify({'users':user_list})
 
     @cross_origin(supports_credentials=True)
     def options (self):
-        return {'Allow' : 'POST' }, 200, \
+        return {'Allow' : 'GET' }, 200, \
         { 'Access-Control-Allow-Origin': '*', \
           'Access-Control-Allow-Methods' : 'GET' }
