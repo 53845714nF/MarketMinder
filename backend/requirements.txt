@@ -1,0 +1,9 @@
+flask
+flask-sqlalchemy
+flask-login
+flask_restful
+flask_migrate
+flask_cors
+psycopg2-binary
+pylint
+gunicorn
