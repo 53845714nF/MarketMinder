@@ -18,7 +18,7 @@ Once the containers are running, you can access the application at http://localh
 ## Technologies
 The MarketMinder is built with the following technologies:
 
-### Backend^
+### Backend
  - Flask
  - Flask-sqlalchemy
  - Flask-login
