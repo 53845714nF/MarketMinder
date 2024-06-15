@@ -8,16 +8,17 @@ This project is part of my bachelor thesis, the goal is to have a container appl
 
 ## Installation
 
-To install the MarketMinder, clone the repository to your local machine. Next, use Docker to run the docker-compose.yml file.
+To install the MarketMinder, clone the repository to your local machine.
+Next, use Docker to run the `compose.yml` file.
 ```
-docker compose up
+sudo docker compose up
 ```
 Once the containers are running, you can access the application at http://localhost
 
 ## Technologies
 The MarketMinder is built with the following technologies:
 
-### Backend
+### Backend^
  - Flask
  - Flask-sqlalchemy
  - Flask-login

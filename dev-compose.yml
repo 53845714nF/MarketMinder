@@ -14,7 +14,9 @@ services:
       - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
 
   backend:
-    image: ghcr.io/53845714nf/marketminder/backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     restart: no
@@ -22,7 +24,9 @@ services:
       - database
 
   frontend:
-    image: ghcr.io/53845714nf/marketminder/frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     restart: no
