@@ -1,0 +1,52 @@
+name: Build Images
+on: workflow_dispatch
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    name: Build Images
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Buildah Action Backend
+      id: build_backend_image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: ghcr.io/${{ github.repository }}/backend
+        oci: true
+        context: ./backend
+        containerfiles: |
+          ./backend/Dockerfile
+    
+    - name: Buildah Action Frontend
+      id: build_frontend_image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: ghcr.io/${{ github.repository }}/frontend
+        oci: true
+        context: ./frontend
+        containerfiles: |
+          ./frontend/Dockerfile
+  
+    - name: Push Backend to GitHub Container Registry
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build_backend_image.outputs.image }}
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push Frontend to GitHub Container Registry
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build_frontend_image.outputs.image }}
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
