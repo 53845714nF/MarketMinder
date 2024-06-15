@@ -23,12 +23,17 @@ services:
     depends_on:
       - database
 
-#  frontend:
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile
-#    ports:
-#      - "3000:3000"
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: no
+    depends_on:
+      - backend
+      - database
+
 
 
 volumes:
